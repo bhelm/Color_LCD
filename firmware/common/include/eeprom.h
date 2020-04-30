@@ -280,7 +280,7 @@ void eeprom_init_defaults(void);
 //#define BICYCLE_2
 
 #ifdef BICYCLE_1
-#define DEFAULT_TORQUE_SENSOR_CALIBRATION_FEATURE_ENABLE            1 // disabled
+#define DEFAULT_TORQUE_SENSOR_CALIBRATION_FEATURE_ENABLE            1 // enabled
 #define DEFAULT_TORQUE_SENSOR_CALIBRATION_PEDAL_GROUND              0 // left pedal
 #define DEFAULT_TORQUE_SENSOR_CALIBRATION_LEFT_WEIGHT_1             0
 #define DEFAULT_TORQUE_SENSOR_CALIBRATION_LEFT_ADC_1                174
