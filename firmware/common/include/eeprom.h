@@ -162,14 +162,14 @@ void eeprom_init_defaults(void);
 
 // *************************************************************************** //
 // EEPROM memory variables default values
-#define DEFAULT_VALUE_ASSIST_LEVEL                                  0
+#define DEFAULT_VALUE_ASSIST_LEVEL                                  10
 #define DEFAULT_VALUE_NUMBER_OF_ASSIST_LEVELS                       20
 #define DEFAULT_VALUE_WHEEL_PERIMETER                               2230 // 28.0'' wheel: 2230mm perimeter
 #define DEFAULT_VALUE_WHEEL_MAX_SPEED                               50
 #define DEFAULT_VALUE_UNITS_TYPE                                    0 // 0 = km/h
 #define DEFAULT_VALUE_WH_X10_OFFSET                                 0
 #define DEFAULT_VALUE_HW_X10_100_PERCENT                            6500 // default to a battery of 400 Wh
-#define DEAFULT_VALUE_SHOW_NUMERIC_BATTERY_SOC                      0 // SOC
+#define DEAFULT_VALUE_SHOW_NUMERIC_BATTERY_SOC                      2 // volts
 #define DEFAULT_VALUE_BATTERY_MAX_CURRENT                           16 // 16 amps
 #define DEFAULT_VALUE_MOTOR_MAX_CURRENT                             16 // 16 amps
 #define DEFAULT_VALUE_CURRENT_MIN_ADC                               1 // 1 unit, 0.156 A
@@ -243,9 +243,9 @@ void eeprom_init_defaults(void);
 #define DEFAULT_VALUE_STARTUP_MOTOR_POWER_BOOST_ASSIST_LEVEL_20     140
 #define DEFAULT_VALUE_STARTUP_MOTOR_POWER_BOOST_TIME                20 // 2.0 seconds
 #define DEFAULT_VALUE_STARTUP_MOTOR_POWER_BOOST_FADE_TIME           35 // 3.5 seconds
-#define DEFAULT_VALUE_MOTOR_TEMPERATURE_FEATURE_ENABLE              0
-#define DEFAULT_VALUE_MOTOR_TEMPERATURE_MIN_VALUE_LIMIT             75 // 75 degrees celsius
-#define DEFAULT_VALUE_MOTOR_TEMPERATURE_MAX_VALUE_LIMIT             85 // 85 degrees celsius
+#define DEFAULT_VALUE_MOTOR_TEMPERATURE_FEATURE_ENABLE              1
+#define DEFAULT_VALUE_MOTOR_TEMPERATURE_MIN_VALUE_LIMIT             70 // 75 degrees celsius
+#define DEFAULT_VALUE_MOTOR_TEMPERATURE_MAX_VALUE_LIMIT             80 // 85 degrees celsius
 #define DEFAULT_VALUE_BATTERY_VOLTAGE_RESET_WH_COUNTER_X10          584 // 52v battery, 58.4 volts at fully charged
 #define DEFAULT_VALUE_LCD_POWER_OFF_TIME                            60 // 60 minutes, each unit 1 minute
 #ifdef SW102
@@ -255,7 +255,7 @@ void eeprom_init_defaults(void);
 #define DEFAULT_VALUE_LCD_BACKLIGHT_ON_BRIGHTNESS                   15 // 100 = 100%
 #define DEFAULT_VALUE_LCD_BACKLIGHT_OFF_BRIGHTNESS                  100
 #endif
-#define DEFAULT_VALUE_BATTERY_PACK_RESISTANCE                       300 // 52v battery, 14S3P measured 300 milli ohms
+#define DEFAULT_VALUE_BATTERY_PACK_RESISTANCE                       200 // 52v battery, 14S3P measured 300 milli ohms
 #define DEFAULT_VALUE_OFFROAD_FEATURE_ENABLED                       0
 #define DEFAULT_VALUE_OFFROAD_MODE_ENABLED_ON_STARTUP               0
 #define DEFAULT_VALUE_OFFROAD_SPEED_LIMIT                           25
@@ -264,7 +264,7 @@ void eeprom_init_defaults(void);
 #define DEFAULT_VALUE_ODOMETER_X10                                  0
 #define DEFAULT_VALUE_BUTTONS_UP_DOWN_INVERT                        0 // regular state
 #define DEFAULT_VALUE_X_AXIS_SCALE                                  0 // 15m
-#define DEFAULT_STREET_MODE_FUNCTION_ENABLE                         0 // disabled
+#define DEFAULT_STREET_MODE_FUNCTION_ENABLE                         1 // disabled
 #define DEFAULT_STREET_MODE_ENABLE_AT_STARTUP                       0 // disabled
 #define DEFAULT_STREET_MODE_ENABLE                                  0 // disabled
 #define DEFAULT_STREET_MODE_SPEED_LIMIT                             25 // 25 km/h
