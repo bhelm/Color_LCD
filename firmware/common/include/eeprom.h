@@ -170,7 +170,6 @@ void eeprom_init_defaults(void);
 #define DEFAULT_VALUE_WHEEL_MAX_SPEED                               50
 #define DEFAULT_VALUE_UNITS_TYPE                                    0 // 0 = km/h
 #define DEFAULT_VALUE_WH_X10_OFFSET                                 0
-<<<<<<< HEAD
 #define DEFAULT_VALUE_HW_X10_100_PERCENT                            6500 // default to a battery of 400 Wh
 #define DEAFULT_VALUE_SHOW_NUMERIC_BATTERY_SOC                      2 // volts
 #define DEAFULT_VALUE_TIME_FIELD                                    1 // 1 i show clock
