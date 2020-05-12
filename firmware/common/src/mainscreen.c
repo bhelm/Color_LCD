@@ -34,7 +34,7 @@ static uint16_t m_assist_level_change_timeout = 0;
 uint8_t ui8_m_wheel_speed_integer;
 uint8_t ui8_m_wheel_speed_decimal;
 
-static uint8_t ui8_walk_assist_state = 0;
+static uint8_t ui8_walk_assist_timeout = 0;
 
 uint16_t ui16_m_battery_current_filtered_x10;
 uint16_t ui16_m_motor_current_filtered_x10;
@@ -368,7 +368,7 @@ Screen bootScreen = {
 // Allow common operations (like walk assist and headlights) button presses to work on any page
 bool anyscreen_onpress(buttons_events_t events) {
   if ((events & DOWN_LONG_CLICK) && ui_vars.ui8_walk_assist_feature_enabled) {
-    ui8_walk_assist_state = 1;
+    ui_vars.ui8_walk_assist = 1;
     return true;
   }
 
@@ -563,7 +563,10 @@ bool mainScreenOnPress(buttons_events_t events) {
       handled = true;
     }
 
-    if (events & DOWN_CLICK) {
+    if (
+      events & DOWN_CLICK
+      && !ui_vars.ui8_walk_assist // do not lower assist level if walk assist is active
+    ) {
       if (ui_vars.ui8_assist_level > 0)
         ui_vars.ui8_assist_level--;
 
@@ -1055,33 +1058,53 @@ void battery_soc(void) {
 
 
 void time(void) {
-	rtc_time_t *p_rtc_time = rtc_get_time();
+#ifndef SW102
+  rtc_time_t *p_rtc_time = rtc_get_time();
 
-	// force to be [0 - 12]
-	if (ui_vars.ui8_units_type) { // FIXME, should be based on a different eeprom config value, just because someone is using mph doesn't mean they want 12 hr time
-		if (p_rtc_time->ui8_hours > 12) {
-			p_rtc_time->ui8_hours -= 12;
-		}
-	}
+  switch (ui_vars.ui8_time_field_enable) {
+    default:
+    case 0:
+      // clear the area
+      fieldPrintf(&timeField, "");
+      break;
 
-	fieldPrintf(&timeField, "%d:%02d", p_rtc_time->ui8_hours,
-			p_rtc_time->ui8_minutes);
+    case 1:
+      // force to be [0 - 12]
+      if (ui_vars.ui8_units_type) { // FIXME, should be based on a different eeprom config value, just because someone is using mph doesn't mean they want 12 hr time
+        if (p_rtc_time->ui8_hours > 12) {
+          p_rtc_time->ui8_hours -= 12;
+        }
+      }
+
+      fieldPrintf(&timeField, "%d:%02d", p_rtc_time->ui8_hours,
+          p_rtc_time->ui8_minutes);
+      break;
+
+    case 2:
+      fieldPrintf(&timeField, "%3d%%", ui8_g_battery_soc);
+      break;
+
+    case 3:
+      fieldPrintf(&timeField, "%u.%1uV",
+          ui_vars.ui16_battery_voltage_soc_x10 / 10,
+          ui_vars.ui16_battery_voltage_soc_x10 % 10);
+      break;
+  }
+#endif
 }
 
 void walk_assist_state(void) {
-	// kevinh - note on the sw102 we show WALK in the box normally used for BRAKE display - the display code is handled there now
-	if (ui_vars.ui8_walk_assist_feature_enabled) {
-		// if down button is still pressed
-		if (ui8_walk_assist_state && buttons_get_down_state()) {
-			ui_vars.ui8_walk_assist = 1;
-		} else if (buttons_get_down_state() == 0) {
-			ui8_walk_assist_state = 0;
-			ui_vars.ui8_walk_assist = 0;
-		}
-	} else {
-		ui8_walk_assist_state = 0;
-		ui_vars.ui8_walk_assist = 0;
-	}
+// kevinh - note on the sw102 we show WALK in the box normally used for BRAKE display - the display code is handled there now
+if (ui_vars.ui8_walk_assist_feature_enabled) {
+    // if down button is still pressed
+    if (ui_vars.ui8_walk_assist && buttons_get_down_state()) {
+      ui8_walk_assist_timeout = 2; // 0.2 seconds
+    } else if (buttons_get_down_state() == 0 && --ui8_walk_assist_timeout == 0) {
+      ui_vars.ui8_walk_assist = 0;
+    }
+  } else {
+    ui_vars.ui8_walk_assist = 0;
+  }
 }
 
 // Screens in a loop, shown when the user short presses the power button
